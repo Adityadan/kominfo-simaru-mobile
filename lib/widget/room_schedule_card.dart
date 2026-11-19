@@ -30,6 +30,10 @@ class RoomScheduleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final start = booking.startsAt;
+    final end = booking.endsAt;
+    if (start == null || end == null) return const SizedBox.shrink();
+
     final (label, foreground, background) = switch (phase) {
       RoomSchedulePhase.finished => (
           'SELESAI',
@@ -47,13 +51,14 @@ class RoomScheduleCard extends StatelessWidget {
           const Color(0xffFFF7D6)
         ),
     };
-    final start = booking.startsAt!;
-    final end = booking.endsAt!;
+
     final sameDay = start.year == end.year &&
         start.month == end.month &&
         start.day == end.day;
     final time =
         'Pukul ${DateFormat('HH.mm').format(start)} - ${DateFormat('HH.mm').format(end)}';
+    final description = booking.description?.trim();
+
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(18),
@@ -87,20 +92,27 @@ class RoomScheduleCard extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 14),
+        Text('Kegiatan', style: simaruBody(size: 12, weight: FontWeight.w500)),
+        const SizedBox(height: 3),
         Text(
-            booking.description?.trim().isNotEmpty == true
-                ? booking.description!
+            description != null && description.isNotEmpty
+                ? description
                 : 'Kegiatan ruangan',
             style: simaruBody(size: 16, weight: FontWeight.w600)),
         const SizedBox(height: 10),
         Text(sameDay ? time : '$time (selesai ${_date(end)})',
             style: simaruBody(size: 13)),
-        const SizedBox(height: 4),
-        Text(
-            booking.totalParticipants == null
-                ? 'Jumlah partisipan belum tersedia'
-                : 'Jumlah partisipan ${booking.totalParticipants} orang',
-            style: simaruBody(size: 13)),
+        const SizedBox(height: 6),
+        Row(children: [
+          Icon(Icons.groups_outlined, size: 16, color: foreground),
+          const SizedBox(width: 6),
+          Expanded(
+            child: Text(
+              booking.participantSummary ?? 'Jumlah partisipan belum tersedia',
+              style: simaruBody(size: 13),
+            ),
+          ),
+        ]),
       ]),
     );
   }
