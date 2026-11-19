@@ -12,10 +12,12 @@ class BookingModel {
   String? nip;
   String? phone;
   String? description;
+  String? participantType;
   int? participant;
   int? participantInternal;
   int? participantExternal;
   DateTime? completedAt;
+  DateTime? deletedAt;
   int? devisi;
 
   BookingModel({
@@ -30,10 +32,12 @@ class BookingModel {
     this.nip,
     this.phone,
     this.description,
+    this.participantType,
     this.participant,
     this.participantInternal,
     this.participantExternal,
     this.completedAt,
+    this.deletedAt,
     this.devisi,
   });
 
@@ -48,10 +52,12 @@ class BookingModel {
         (json['booking_start_date'] ?? json['start_date'])?.toString();
     bookingEndDate = (json['booking_end_date'] ?? json['end_date'])?.toString();
     status = json['status']?.toString();
+    deletedAt = DateTime.tryParse(json['deleted_at']?.toString() ?? '');
     name = json['name'];
     nip = json['nip'];
     phone = json['phone'];
     description = json['description'];
+    participantType = json['participant_type']?.toString();
     participant = json['participant'] is int
         ? json['participant']
         : int.tryParse(json['participant']?.toString() ?? '');
@@ -77,6 +83,17 @@ class BookingModel {
       participantInternal != null || participantExternal != null
           ? (participantInternal ?? 0) + (participantExternal ?? 0)
           : participant;
+
+  String? get participantSummary {
+    final total = totalParticipants;
+    if (total == null) return null;
+    if (participantInternal == null && participantExternal == null) {
+      return 'Jumlah partisipan $total orang';
+    }
+    return 'Jumlah partisipan $total orang '
+        '(Internal ${participantInternal ?? 0}, '
+        'Eksternal ${participantExternal ?? 0})';
+  }
 
   RoomSchedulePhase? roomSchedulePhaseAt(DateTime now) {
     final start = startsAt;
@@ -126,6 +143,7 @@ class BookingModel {
       'phone': phone,
       'booking_start_date': bookingStartDate,
       'booking_end_date': bookingEndDate,
+      'participant_type': participantType,
       'participant': participant,
       'description': description,
       'member_id': idMember,

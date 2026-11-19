@@ -36,9 +36,10 @@ class BookingRoomModel {
   });
 
   BookingRoomModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'] is int
-        ? json['id']
-        : int.tryParse(json['id']?.toString() ?? '');
+    final bookingId = json['booking_id'] ?? json['id'];
+    id = bookingId is int
+        ? bookingId
+        : int.tryParse(bookingId?.toString() ?? '');
     idRoom = json['room_id'] is int
         ? json['room_id']
         : int.tryParse(json['room_id']?.toString() ?? '');
