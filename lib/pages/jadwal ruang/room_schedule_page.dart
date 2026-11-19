@@ -138,9 +138,9 @@ class _RoomSchedulePageState extends State<RoomSchedulePage>
           titleSize: 22,
           subtitleSize: 12,
           height: MediaQuery.paddingOf(context).top +
-              100 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
+              80 * MediaQuery.textScalerOf(context).scale(1).clamp(1.0, 2.0),
           padding: EdgeInsets.fromLTRB(
-              20, MediaQuery.paddingOf(context).top + 18, 20, 16),
+              20, MediaQuery.paddingOf(context).top + 14, 20, 16),
         ),
         Expanded(
           child: _loading
@@ -149,7 +149,7 @@ class _RoomSchedulePageState extends State<RoomSchedulePage>
                   onRefresh: _load,
                   child: ListView(
                     physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(14),
                     children: [
                       if (_error && _room == null)
                         ApiErrorState(onRetry: _load)
