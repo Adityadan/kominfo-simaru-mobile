@@ -104,12 +104,15 @@ class DetailPemesananPage extends StatelessWidget {
               24, MediaQuery.paddingOf(context).top + 16, 24, 16),
         ),
         Expanded(
-            child: SimaruBottomCurve(
+            child: Container(
+          width: double.infinity,
           padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+          color: Colors.white,
           child: ListView(padding: EdgeInsets.zero, children: [
             Center(
                 child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
               decoration: BoxDecoration(
                   color: booking.status == 'PENDING'
                       ? const Color(0xffE5820B)
@@ -121,9 +124,12 @@ class DetailPemesananPage extends StatelessWidget {
                   booking.status == 'PENDING'
                       ? 'Menunggu Persetujuan'
                       : booking.statusLabel,
+                    maxLines: 2,
                   textAlign: TextAlign.center,
                   style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.w700)),
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700)),
             )),
             const SizedBox(height: 26),
             Text('Informasi Pemesanan', style: simaruTitle(size: 17)),
